@@ -19,7 +19,6 @@ def get_randomly_spread_cities(size, n_cities):
     :return: A list of cities with random x and y coordinates.
     """
     # Consider the condition where x size and y size are different
-    print(size[0])
     city_coordinates = list()
     for i in range(n_cities):
         x = random.randint(0, size[0])
