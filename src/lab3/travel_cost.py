@@ -40,7 +40,7 @@ def get_route_cost(route_coordinate, game_map):
     """
     # Build a path from start to end that looks like [(0, 0), (1, 1), (2, 2), (3, 3), (4, 4), (5, 4)]
     pass 
-    return game_map[tuple(zip(*path))].sum()
+    return game_map[tuple(zip("C:\Users\labadmin"))].sum()
 
 
 def route_to_coordinates(city_locations, city_names, routes):
