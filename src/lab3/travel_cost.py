@@ -45,9 +45,6 @@ def get_route_cost(route_coordinate, game_map):
     x, y = route_coordinate
     print(x[0], x[1], y[0], y[1])
     path = list(bresenham(x[0], x[1], y[0], y[1]))
-    #path = ((y[1] - x[1]) / (y[0] - x[0]))
-    #slope, intercept, r, p, std_err = stats.linregress(y, x) 
-    #print()
     pass 
     return game_map[tuple(zip(*path))].sum()
 
