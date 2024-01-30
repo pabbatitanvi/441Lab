@@ -41,13 +41,13 @@ def get_route_cost(route_coordinate, game_map):
     :return: a floating point number representing the cost of the route
     """
     # Build a path from start to end that looks like [(0, 0), (1, 1), (2, 2), (3, 3), (4, 4), (5, 4)]
-    print(route_coordinate)
     x, y = route_coordinate
     print(x[0], x[1], y[0], y[1])
+    #algorithm for finding a straight line
     path = list(bresenham(x[0], x[1], y[0], y[1]))
     pass 
     return game_map[tuple(zip(*path))].sum()
-
+ 
 
 def route_to_coordinates(city_locations, city_names, routes):
     """ get coordinates of each of the routes from cities and city_names"""
