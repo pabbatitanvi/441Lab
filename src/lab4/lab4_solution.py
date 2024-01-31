@@ -44,14 +44,12 @@ class AiPlayer(Player):
     def __init__(self, name):
         super().__init__(name)
         self.initial_weapon = random_weapon_select()
-        #self.round
     
     def weapon_selecting_strategy(self):
-        #agent mimic: identify - uses last round of my_choice as opponent choice, to beat it aaccess last choice of mychoice
-        #agent switch: identify - 10 rounds same choice, so if it isn't mimic check the first round and checkc again after 10 rounds
-        #print(self.round)
-        print (self.opponent_choices)
-        print(self.my_choices)
+        #agent mimic: identify - uses last round of my_choice as opponent choice, to beat it access last choice of mychoice
+        #agent switch: identify - 10 rounds same choice, so if it isn't mimic check then it prolly is switch        
+        #print (self.opponent_choices)
+        #print(self.my_choices)
         if len(self.opponent_choices) == 0:
             return random_weapon_select()
         
@@ -67,9 +65,7 @@ class AiPlayer(Player):
 if __name__ == '__main__':
     final_tally = [0]*3
     for agent in range(3):
-        #change it to 100
         for i in range(100):
-            #change it to 100
             tally = [score for _, score in run_game(AiPlayer("AI"), 100, agent)]
             if sum(tally) == 0:
                 final_tally[agent] = 0
