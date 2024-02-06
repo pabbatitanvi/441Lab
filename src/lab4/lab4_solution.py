@@ -39,25 +39,18 @@ from rock_paper_scissor import Player
 from rock_paper_scissor import run_game
 from rock_paper_scissor import random_weapon_select
 
-
 class AiPlayer(Player):
     def __init__(self, name):
         super().__init__(name)
         self.initial_weapon = random_weapon_select()
     
     def weapon_selecting_strategy(self):
-        #agent mimic: identify - uses last round of my_choice as opponent choice, to beat it access last choice of mychoice
-        #agent switch: identify - 10 rounds same choice, so if it isn't mimic check then it prolly is switch        
-        #print (self.opponent_choices)
-        #print(self.my_choices)
+        #agent mimic: identify - uses last round of my_choice as opponent choice, to beat it aaccess last choice of mychoice
+        #agent switch: identify - 10 rounds same choice, so if it isn't mimic check the first round and checkc again after 10 rounds
+        print (self.opponent_choices)
+        print(self.my_choices)
         if len(self.opponent_choices) == 0:
-            return random_weapon_select()
-        
-        if len(self.opponent_choices) >= 3:
-            if self.opponent_choices[-1] == self.my_choices[-2] and self.opponent_choices[-2] == self.my_choices[-3]:
-                return (self.my_choices[-1] + 1) % 3
-            elif self.opponent_choices[-1] == self.opponent_choices[-2] and self.opponent_choices[-2] == self.opponent_choices[-3]:
-                return (self.opponent_choices[-1] + 1) % 3
+            return self.initial_weapon
         return random_weapon_select()
         pass
 
@@ -65,8 +58,10 @@ class AiPlayer(Player):
 if __name__ == '__main__':
     final_tally = [0]*3
     for agent in range(3):
-        for i in range(100):
-            tally = [score for _, score in run_game(AiPlayer("AI"), 100, agent)]
+        #change it to 100
+        for i in range(15):
+            #change it to 100
+            tally = [score for _, score in run_game(AiPlayer("AI"), 15, agent)]
             if sum(tally) == 0:
                 final_tally[agent] = 0
             else:
