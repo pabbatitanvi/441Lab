@@ -44,7 +44,7 @@ if __name__ == "__main__":
                   'Numensari', 'Rhunkadi', 'Londathrad', 'Baernlad', 'Forthyr']
     
     city_locations = get_randomly_spread_cities(size, len(city_names))
-    routes = []
+    routes = get_routes(city_names)
 
     ''' Setup cities and routes in here'''
 
@@ -61,7 +61,12 @@ if __name__ == "__main__":
         screen.blit(pygame_surface, (0, 0))
 
         ''' draw cities '''
+        for i in range(len(city_names)):
+            pygame.draw.circle(pygame_surface, black, city_locations_dict[city_names[i]], 10)
 
         ''' draw first 10 routes '''
+        for i in range(len(city_names)):
+            coordinate = city_locations_dict[city_names[i]]
+            pygame.draw.line(pygame_surface, black, coordinate, 15)
 
         pygame.display.flip()
