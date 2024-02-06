@@ -50,7 +50,12 @@ class AiPlayer(Player):
         print (self.opponent_choices)
         print(self.my_choices)
         if len(self.opponent_choices) == 0:
-            return self.initial_weapon
+            return random_weapon_select()
+        if len(self.opponent_choices) >= 3:
+            if self.opponent_choices[-1] == self.my_choices[-2] and self.opponent_choices[-2] == self.my_choices[-3]:
+                return (self.my_choices[-1] + 1) % 3
+            elif self.opponent_choices[-1] == self.opponent_choices[-2] and self.opponent_choices[-2] == self.opponent_choices[-3]:
+                return (self.opponent_choices[-1] + 1) % 3
         return random_weapon_select()
         pass
 
@@ -58,10 +63,8 @@ class AiPlayer(Player):
 if __name__ == '__main__':
     final_tally = [0]*3
     for agent in range(3):
-        #change it to 100
-        for i in range(15):
-            #change it to 100
-            tally = [score for _, score in run_game(AiPlayer("AI"), 15, agent)]
+        for i in range(100):
+            tally = [score for _, score in run_game(AiPlayer("AI"), 100, agent)]
             if sum(tally) == 0:
                 final_tally[agent] = 0
             else:
