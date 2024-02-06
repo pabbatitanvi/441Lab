@@ -42,7 +42,8 @@ if __name__ == "__main__":
 
     city_names = ['Morkomasto', 'Morathrad', 'Eregailin', 'Corathrad', 'Eregarta',
                   'Numensari', 'Rhunkadi', 'Londathrad', 'Baernlad', 'Forthyr']
-    city_locations = [] 
+    
+    city_locations = get_randomly_spread_cities(size, len(city_names))
     routes = []
 
     ''' Setup cities and routes in here'''
