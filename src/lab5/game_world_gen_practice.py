@@ -34,6 +34,7 @@ if __name__ == "__main__":
     pygame.init()
     size = width, height = 640, 480
     black = 1, 1, 1
+    red = 255, 0, 0
 
     screen = pygame.display.set_mode(size)
     landscape = get_landscape(size)
@@ -66,7 +67,8 @@ if __name__ == "__main__":
 
         ''' draw first 10 routes '''
         for i in range(len(city_names)):
-            coordinate = city_locations_dict[city_names[i]]
-            pygame.draw.line(pygame_surface, black, coordinate, 15)
+            x = city_locations_dict[routes[i][0]]
+            y = city_locations_dict[routes[i][1]]
+            pygame.draw.line(pygame_surface, red, x, y)
 
         pygame.display.flip()
