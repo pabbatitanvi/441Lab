@@ -20,10 +20,23 @@ from pathlib import Path
 sys.path.append(str((Path(__file__) / ".." / ".." / "..").resolve().absolute()))
 
 from src.lab5.landscape import elevation_to_rgba
+from src.lab5.landscape import get_elevation
 
 
 def game_fitness(cities, idx, elevation, size):
-    fitness = 0.0001  # Do not return a fitness of 0, it will mess up the algorithm.
+    print(size)
+    print(cities)
+    fitness = 50.0001  # Do not return a fitness of 0, it will mess up the algorithm.
+    city1 = [4, 6]
+    if elevation[city1[0], city1[1]] > 0.9: #on top of mountain
+        fitness -= 0.1
+
+    all_cities = solution_to_cities(cities, size)
+    for i in all_cities:
+        if elevation[i[0], i[1] > 0.9]:
+            fitness -= 0.1
+        else:
+            fitness += 0.5
     """
     Create your fitness function here to fulfill the following criteria:
     1. The cities should not be under water
@@ -115,6 +128,7 @@ if __name__ == "__main__":
     n_cities = 10
     elevation = []
     """ initialize elevation here from your previous code"""
+    elevation = get_elevation(size)
     # normalize landscape
     elevation = np.array(elevation)
     elevation = (elevation - elevation.min()) / (elevation.max() - elevation.min())
