@@ -24,19 +24,29 @@ from src.lab5.landscape import get_elevation
 
 
 def game_fitness(cities, idx, elevation, size):
-    print(size)
-    print(cities)
-    fitness = 50.0001  # Do not return a fitness of 0, it will mess up the algorithm.
-    city1 = [4, 6]
-    if elevation[city1[0], city1[1]] > 0.9: #on top of mountain
-        fitness -= 0.1
+    #print(size)
+    #print(cities)
+    #fitness = 0.0001  # Do not return a fitness of 0, it will mess up the algorithm.
+    #city1 = [4, 6]
+    #if elevation[city1[0], city1[1]] > 0.9: #on top of mountain
+    #    fitness -= 0.1
 
     all_cities = solution_to_cities(cities, size)
     for i in all_cities:
-        if elevation[i[0], i[1] > 0.9]:
+        if elevation[i[0], i[1]] < 0.2 and elevation[i[0], i[1]] > 0.9:
+            fitness += 0.1
+        else:
+            fitness -= 0.1
+        next_pixel = all_cities[i+1]
+        if abs(i[0]-next_pixel[0]) < 80 and abs(i[1]-next_pixel[1]) < 80:
             fitness -= 0.1
         else:
-            fitness += 0.5
+            fitness += 0.1
+        
+        if (fitness - 0.1 > 0):
+            fitness -= 0.1
+        else:
+            fitness = 0.0001
     """
     Create your fitness function here to fulfill the following criteria:
     1. The cities should not be under water
