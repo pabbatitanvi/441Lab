@@ -26,27 +26,32 @@ from src.lab5.landscape import get_elevation
 def game_fitness(cities, idx, elevation, size):
     #print(size)
     #print(cities)
-    #fitness = 0.0001  # Do not return a fitness of 0, it will mess up the algorithm.
     #city1 = [4, 6]
     #if elevation[city1[0], city1[1]] > 0.9: #on top of mountain
     #    fitness -= 0.1
 
+    fitness = 1  # Do not return a fitness of 0, it will mess up the algorithm.
+    
     all_cities = solution_to_cities(cities, size)
     for i in all_cities:
-        if elevation[i[0], i[1]] < 0.2 and elevation[i[0], i[1]] > 0.9:
-            fitness += 0.1
-        else:
-            fitness -= 0.1
-        next_pixel = all_cities[i+1]
-        if abs(i[0]-next_pixel[0]) < 80 and abs(i[1]-next_pixel[1]) < 80:
-            fitness -= 0.1
-        else:
-            fitness += 0.1
+        #if elevation of the city is in good range, fitness increases
+        if elevation[i[0], i[1]] > 0.2 and elevation[i[0], i[1]] < 0.9:
+            fitness += 0.25
+        else: #if not, then the fitness decreases
+            #but first it checks if the fitness is negative, if it is not then decreases
+            if (fitness - 0.1 > 0):
+                fitness -= 0.1
+            else: #else fitness goes to the original value
+                fitness = 0.0001
+        #for loop that checks if the cities are close to each other
+        for j in range(len(cities) - 1):
+            next = all_cities[j+1]
+            if abs(i[0]-next[0]) < 25 and abs(i[1]-next[1]) < 25:
+                fitness -= 0.1 #decreases if the cities are close
+            else:
+                fitness += 0.25 #increases if the cities are not close
         
-        if (fitness - 0.1 > 0):
-            fitness -= 0.1
-        else:
-            fitness = 0.0001
+        
     """
     Create your fitness function here to fulfill the following criteria:
     1. The cities should not be under water
