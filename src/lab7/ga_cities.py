@@ -24,13 +24,7 @@ from src.lab5.landscape import get_elevation
 
 
 def game_fitness(cities, idx, elevation, size):
-    #print(size)
-    #print(cities)
-    #city1 = [4, 6]
-    #if elevation[city1[0], city1[1]] > 0.9: #on top of mountain
-    #    fitness -= 0.1
-
-    fitness = 1  # Do not return a fitness of 0, it will mess up the algorithm.
+    fitness = 0.0001  # Do not return a fitness of 0, it will mess up the algorithm.
     
     all_cities = solution_to_cities(cities, size)
     for i in all_cities:
@@ -45,7 +39,7 @@ def game_fitness(cities, idx, elevation, size):
                 fitness = 0.0001
         #for loop that checks if the cities are close to each other
         for j in range(len(cities) - 1):
-            next = all_cities[j+1]
+            next = all_cities[j+1] #gets the next city
             if abs(i[0]-next[0]) < 25 and abs(i[1]-next[1]) < 25:
                 fitness -= 0.1 #decreases if the cities are close
             else:
