@@ -1,6 +1,6 @@
 """ Lab 10: Save people
 You can save people from heart disease by training a model to predict whether a person has heart disease or not.
-The dataset is available at src/lab8/heart.csv
+The dataset is available at src/lab10/heart.csv
 Train a model to predict whether a person has heart disease or not and test its performance.
 You can usually improve the model by normalizing the input data. Try that and see if it improves the performance. 
 """
