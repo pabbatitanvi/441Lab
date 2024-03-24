@@ -14,5 +14,4 @@ class PyGameAICombatPlayer(CombatPlayer):
         super().__init__(name)
 
     def weaponSelectingStrategy(self):
-        self.weapon = random.randint(0, 2)
-        return self.weapon
+        return random.randint(0, 2)
