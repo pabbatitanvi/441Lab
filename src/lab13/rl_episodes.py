@@ -74,23 +74,59 @@ def run_episodes(n_episodes):
         Return the action values as a dictionary of dictionaries where the keys are states and 
             the values are dictionaries of actions and their values.
     '''
+    # player1 = PyGameRandomCombatPlayer("Player")
+    # player2 = PyGameComputerCombatPlayer("Computer")
+
+    # action_values = {}
+
+    # for _ in range(n_episodes):
+    #     random_episode = run_random_episode(player1, player2)
+    #     history_returns = get_history_returns(random_episode)
+
+    #     for state, actions in history_returns.items():
+    #         if state not in action_values:
+    #             action_values[state] = {}
+    #         for action, n in actions.items():
+    #             if action not in action_values[state]:
+    #                 action_values[state][action] = []
+    #             action_values[state][action].append(n)
+        
+    #     for state, actions in action_values.items():
+    #         for action, returns in actions.items():
+    #             total_return = sum(returns)
+    #             num_occurrences = len(returns)
+    #             if num_occurrences > 0:
+    #                 action_values[state][action] = total_return / num_occurrences
+    #             else:
+    #                 action_values[state][action] = 0
+
     player1 = PyGameRandomCombatPlayer("Player")
     player2 = PyGameComputerCombatPlayer("Computer")
 
     action_values = {}
-    episode_dict = {}
 
     for _ in range(n_episodes):
         random_episode = run_random_episode(player1, player2)
         history_returns = get_history_returns(random_episode)
 
         for state, actions in history_returns.items():
-            if state not in episode_dict:
-                episode_dict[state] = {}
-            for action in actions:
-                episode_dict[state][action] = actions[action]
-        
-        
+            if state not in action_values:
+                action_values[state] = {}
+            for action, n in actions.items():
+                if action not in action_values[state]:
+                    action_values[state][action] = []
+                
+                action_values[state][action].append(n)
+
+    for state, actions in action_values.items():
+        for action, returns in actions.items():
+            total_return = sum(returns)
+            num_occurrences = len(returns)
+            #action_values[state][action] = total_return / num_occurrences
+            if num_occurrences > 0:
+                action_values[state][action] = total_return / num_occurrences
+            else:
+                action_values[state][action] = 0
     return action_values
 
 
