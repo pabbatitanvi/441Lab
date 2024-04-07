@@ -25,7 +25,7 @@ def run_episode(player1, player2):
 
     while not currentGame.gameOver:
         reward = run_turn(currentGame, player1, player2)
-        health = (player1.health, player2.health)
+        health = tuple([player1.health, player2.health])
         result = (health, player1.weapon, reward)
         episode_list.append(result)
     
