@@ -74,13 +74,14 @@ def run_episodes(n_episodes):
         Return the action values as a dictionary of dictionaries where the keys are states and 
             the values are dictionaries of actions and their values.
     '''
-    player1 = PyGameRandomCombatPlayer("Player")
-    player2 = PyGameComputerCombatPlayer("Computer")
 
     action_values = {}
 
     for _ in range(n_episodes):
-        random_episode = run_random_episode(player1, player2)
+        player1 = PyGameRandomCombatPlayer("Player")
+        player2 = PyGameComputerCombatPlayer("Computer")
+
+        random_episode = run_episode(player1, player2)
         history_returns = get_history_returns(random_episode)
 
         for state, actions in history_returns.items():
