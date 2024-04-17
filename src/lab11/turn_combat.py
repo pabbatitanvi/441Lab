@@ -67,6 +67,7 @@ class Combat:
 
     # Check if either or both Players is below zero health
     def checkWin(self, player, opponent):
+        print('hi')
         if player.health < 1 and opponent.health > 0:
             self.gameOver = True
             print("You Lose")
