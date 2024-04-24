@@ -96,10 +96,10 @@ def run_episodes(n_episodes):
         for action, returns in actions.items():
             total_return = sum(returns)
             num_occurrences = len(returns)
-            if num_occurrences > 0:
-                action_values[state][action] = total_return / num_occurrences
-            else:
-                action_values[state][action] = 0
+            #if num_occurrences > 0:
+            action_values[state][action] = total_return / num_occurrences
+            #else:
+            #    action_values[state][action] = 0
     return action_values
 
 

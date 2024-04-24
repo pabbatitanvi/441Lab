@@ -5,9 +5,10 @@ from lab11.sprite import Sprite
 from lab11.turn_combat import CombatPlayer, Combat
 from lab11.pygame_ai_player import PyGameAICombatPlayer
 from lab11.pygame_human_player import PyGameHumanCombatPlayer
+from lab4.rock_paper_scissor import ComputerPlayer, Game
 
 AI_SPRITE_PATH = Path("assets/ai.png")
-
+print("draft")
 pygame.font.init()
 game_font = pygame.font.SysFont("Comic Sans MS", 15)
 
@@ -47,7 +48,8 @@ def run_turn(currentGame, player, opponent):
 
 def run_pygame_combat(combat_surface, screen, player_sprite):
     currentGame = Combat()
-    player = PyGameHumanCombatPlayer("Legolas")
+    #currentGame = Game()
+    player = PyGameHumanCombatPlayer("Oillill")
     """ Add a line below that will reset the player object
     to an instance of the PyGameAICombatPlayer class"""
     opponent = PyGameComputerCombatPlayer("Computer")

@@ -9,7 +9,7 @@ from lab4.rock_paper_scissor import Player
 
 weapons = ["Sword", "Arrow", "Fire"]
 
-
+print("draft")
 class CombatPlayer(Player):
     def __init__(self, name):
         super().__init__(name)
@@ -67,7 +67,6 @@ class Combat:
 
     # Check if either or both Players is below zero health
     def checkWin(self, player, opponent):
-        print('hi')
         if player.health < 1 and opponent.health > 0:
             self.gameOver = True
             print("You Lose")
@@ -122,7 +121,7 @@ class Combat:
 def run_console_combat():
     # Setup Combat Objects
     currentGame = Combat()
-    human = Player("Mark")
+    human = Player("Oillill")
     computer = ComputerCombatPlayer("Computer")
 
     players = [human, computer]
