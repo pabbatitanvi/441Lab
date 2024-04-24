@@ -6,6 +6,7 @@ class PyGameHumanPlayer:
     def __init__(self) -> None:
         self.money = 100
         self.health = 100
+        # pass
 
     def selectAction(self, state):
         for event in pygame.event.get():

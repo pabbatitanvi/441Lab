@@ -5,10 +5,11 @@ from sprite import Sprite
 from pygame_combat import run_pygame_combat
 from pygame_human_player import PyGameHumanPlayer
 from lab5.landscape import get_landscape, elevation_to_rgba, get_elevation
-from pygame_ai_player import PyGameAIPlayer
-from lab3.travel_cost import get_route_cost
+from pygame_ai_player import PyGameAIPlayer, PyGameAICombatPlayer
+#from lab3.travel_cost import get_route_cost
 from lab12.episode import run_episode
 from journal import journal
+from lab4.rock_paper_scissor import ComputerPlayer
 
 from pathlib import Path
 
@@ -53,6 +54,11 @@ def displayCityNames(city_locations, city_names):
         text_surface = game_font.render(str(i) + " " + name, True, (0, 0, 150))
         screen.blit(text_surface, city_locations[i])
 
+def get_route_cost(cities, city, to_city, elevation):
+    cityElevations = []
+    cityElevations.append(elevation[cities[city][0]][cities[city][1]])
+    cityElevations.append(elevation[cities[to_city][0]][cities[to_city][1]])
+    return (int)((cityElevations[1] - cityElevations[0]) * 100)
 
 class State:
     def __init__(
@@ -78,7 +84,7 @@ if __name__ == "__main__":
     start_city = 0
     end_city = 9
     sprite_path = "assets/lego.png"
-    sprite_speed = 1
+    sprite_speed = 0.5
 
     screen = setup_window(width, height, "Game World Gen Practice")
 
@@ -108,8 +114,8 @@ if __name__ == "__main__":
     print("1RS")
     player_sprite = Sprite(sprite_path, city_locations[start_city])
     print("1PS")
-    player = PyGameHumanPlayer()
-    opponent = PyGameAIPlayer()
+    player = PyGameAIPlayer()
+    #player = PyGameHumanPlayer()
     print("1PO")
     """ Add a line below that will reset the player variable to 
     a new object of PyGameAIPlayer class."""
@@ -128,10 +134,12 @@ if __name__ == "__main__":
     bool = False
     while True:
         print("1W")
-        action = player.selectAction(state)
+        action = player.selectAction()
         if 0 <= int(chr(action)) <= 9:
+        # if 0 <= state.current_city <= 9:
             print("1IF")
             if int(chr(action)) != state.current_city and not state.travelling:
+                print("olalala")
                 ''' 
                 Check if a route exist between the current city and the destination city.
                 '''
@@ -151,9 +159,10 @@ if __name__ == "__main__":
                     print(
                         "Travelling from", state.current_city, "to", state.destination_city
                     )
-                    journal.generate_journal_entry(state)
+                    #journal.generate_journal_entry(state)
+                    route_coordinate = start, destination
                     player.money -= get_route_cost(city_locations, state.current_city, state.destination_city, elevation)
-                    player.heatlh -= 5
+                    player.health -= 5
                 else:
                     print("No route from the current city to destination")
 
@@ -184,11 +193,13 @@ if __name__ == "__main__":
 
         if state.encounter_event:
             print("1SEE")
-            episode = run_episode(player, opponent)
-            print(episode)
-            win = run_pygame_combat(combat_surface, screen, player_sprite)
-            player.money += win * 10
-            player.health += 5
+            # episode = run_episode(player, opponent)
+            # print(episode)
+            # win = run_pygame_combat(combat_surface, screen, player_sprite)
+            # player.money += win * 10
+            # player.health += 5
+            # state.encounter_event = False
+            run_pygame_combat(combat_surface, screen, player_sprite)
             state.encounter_event = False
         else:
             player_sprite.draw_sprite(screen)

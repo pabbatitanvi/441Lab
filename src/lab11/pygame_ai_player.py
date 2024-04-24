@@ -15,6 +15,8 @@ class PyGameAIPlayer:
 class PyGameAICombatPlayer(CombatPlayer):
     def __init__(self, name):
         super().__init__(name)
+        self.money = 100
+        self.health = 100
 
     def weaponSelectingStrategy(self):
         return random.randint(0, 2)

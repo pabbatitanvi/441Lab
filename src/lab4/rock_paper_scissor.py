@@ -33,6 +33,8 @@ class ComputerPlayer(Player):
         else:
             self.agent = computer_agent
         self.initial_weapon = random_weapon_select()
+        self.money = 100
+        self.health = 100
         self.print_agent()
 
     def print_agent(self):

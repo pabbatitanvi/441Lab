@@ -44,8 +44,7 @@ def get_route_cost(route_coordinate, game_map):
     x, y = route_coordinate
     print(x[0], x[1], y[0], y[1])
     #algorithm for finding a straight line
-    path = list(bresenham(x[0], x[1], y[0], y[1]))
-    pass 
+    path = list(bresenham(x[0], x[1], y[0], y[1])) 
     return game_map[tuple(zip(*path))].sum()
  
 
