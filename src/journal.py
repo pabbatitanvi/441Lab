@@ -9,7 +9,7 @@ class journal:
     
     def generate_journal_entry(self, state):
         if state.travelling:
-            if state.encounter.event:
+            if state.encounter_event:
                 event = f"Encountered an event while travelling from {state.current_city} to {state.destination_city}"
             else:
                 event = f"Player is going from {state.current_city} to {state.destination_city}"

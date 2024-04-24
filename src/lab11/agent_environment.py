@@ -159,12 +159,13 @@ if __name__ == "__main__":
                     print(
                         "Travelling from", state.current_city, "to", state.destination_city
                     )
-                    #journal.generate_journal_entry(state)
+                    journal.generate_journal_entry(state)
                     route_coordinate = start, destination
                     player.money -= get_route_cost(city_locations, state.current_city, state.destination_city, elevation)
                     player.health -= 5
                 else:
                     print("No route from the current city to destination")
+                    #break
 
         screen.fill(black)
         screen.blit(landscape_surface, (0, 0))
@@ -196,10 +197,10 @@ if __name__ == "__main__":
             # episode = run_episode(player, opponent)
             # print(episode)
             # win = run_pygame_combat(combat_surface, screen, player_sprite)
-            # player.money += win * 10
-            # player.health += 5
             # state.encounter_event = False
             run_pygame_combat(combat_surface, screen, player_sprite)
+            player.money += 10
+            player.health += 5
             state.encounter_event = False
         else:
             player_sprite.draw_sprite(screen)
