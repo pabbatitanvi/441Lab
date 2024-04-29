@@ -29,6 +29,28 @@ from lab2.cities_n_routes import get_randomly_spread_cities, get_routes
 # TODO: Demo blittable surface helper function
 
 ''' Create helper functions here '''
+def generate_all_routes(city_locations):
+    all_routes = []
+    #city_names = list(city_locations.keys())
+    for i in range(len(city_locations)):
+        for j in range(i + 1, len(city_locations)):
+            all_routes.append((city_locations[i], city_locations[j]))
+    
+    return list(all_routes)
+
+def city_connected(routes, city_names):
+    stack = [city_names[0]]
+    visited = {city: False for city in city_names}
+    while stack:
+        city = stack.pop()
+        if not visited[city]:
+            visited[city] = True
+            for route in routes:
+                if city in route:
+                    next_city = route[0] if route[0] != city else route[1]
+                    stack.append(next_city)
+    return all(visited.values())
+
 
 if __name__ == "__main__":
     pygame.init()
@@ -45,13 +67,16 @@ if __name__ == "__main__":
                   'Numensari', 'Rhunkadi', 'Londathrad', 'Baernlad', 'Forthyr']
     
     city_locations = get_randomly_spread_cities(size, len(city_names))
-    routes = get_routes(city_names)
-
+    #routes = get_routes(city_names)
     ''' Setup cities and routes in here'''
 
     city_locations_dict = {name: location for name, location in zip(city_names, city_locations)}
+    routes = generate_all_routes(city_locations)
     random.shuffle(routes)
-    routes = routes[:10] 
+    #routes = routes[:10] 
+
+    while not city_connected(routes, city_names):
+        random.shuffle(routes)
 
     while True:
         for event in pygame.event.get():
@@ -72,3 +97,4 @@ if __name__ == "__main__":
             pygame.draw.line(pygame_surface, red, x, y)
 
         pygame.display.flip()
+        

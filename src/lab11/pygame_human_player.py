@@ -1,12 +1,10 @@
 import pygame
 from lab11.turn_combat import CombatPlayer
 
-print("draft")
 class PyGameHumanPlayer:
     def __init__(self) -> None:
         self.money = 100
         self.health = 100
-        # pass
 
     def selectAction(self, state):
         for event in pygame.event.get():
@@ -22,7 +20,7 @@ class PyGameHumanCombatPlayer(CombatPlayer):
     def __init__(self, name):
         super().__init__(name)
 
-    def weapon_selecting_strategy(self):
+    def selectAction(self, state):
         while True:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:

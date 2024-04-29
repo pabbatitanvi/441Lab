@@ -2,7 +2,6 @@ import matplotlib.pyplot as plt
 from perlin_noise import PerlinNoise
 import numpy as np
 
-print("draft")
 def get_elevation(size):
     xpix, ypix = size
     elevation = np.array([])

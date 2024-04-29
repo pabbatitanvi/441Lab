@@ -9,7 +9,6 @@ from lab4.rock_paper_scissor import Player
 
 weapons = ["Sword", "Arrow", "Fire"]
 
-print("draft")
 class CombatPlayer(Player):
     def __init__(self, name):
         super().__init__(name)
@@ -25,19 +24,21 @@ class CombatPlayer(Player):
 
         :param percept: Tuple of (environment state, opponent's last move)
         """
-        env_state = percept
+        env_state = percept[0]
+        opponents_weapon = percept[1]
         # ** Previous round update **
         if percept is not None:
             self.current_env_state = env_state
-
+            self.opponent_choices.append(opponents_weapon)
         # ** Current round update **
         self._action = self.weapon_selecting_strategy()
-        self.weapon = self._action
+        #self.weapon = self._action
         self.my_choices.append(self.action)
 
     def damage(self):
         points = 10
         self.health -= points
+        #self.money -= points
 
     def weapon_selecting_strategy(self):
         choice = input("Choose your weapon s-Sword, a-Arrow or f-Fire:  ")

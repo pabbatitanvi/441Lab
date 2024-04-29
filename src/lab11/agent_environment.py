@@ -7,10 +7,10 @@ from pygame_human_player import PyGameHumanPlayer
 from lab5.landscape import get_landscape, elevation_to_rgba, get_elevation
 from pygame_ai_player import PyGameAIPlayer, PyGameAICombatPlayer
 #from lab3.travel_cost import get_route_cost
-from lab12.episode import run_episode
+#from lab12.episode import run_episode
 from journal import journal
-from lab4.rock_paper_scissor import ComputerPlayer
-
+#from lab4.rock_paper_scissor import ComputerPlayer 
+#from lab5.game_world_gen_practice import generate_all_routes, city_connected
 from pathlib import Path
 
 sys.path.append(str((Path(__file__) / ".." / "..").resolve().absolute()))
@@ -77,8 +77,28 @@ class State:
         self.cities = cities
         self.routes = routes
 
+def city_connected(routes, num):
+    stack = [routes[0][0]]
+    visited = set()
+    while stack:
+        city = stack.pop()
+        visited.add(city)
+        
+        next_cities = [r[1] for r in routes if r[0] == city]
+        for c in next_cities:
+            if c not in visited:
+                stack.append(c)
+    return len(visited) == num
 
 if __name__ == "__main__":
+    check_player = 0
+    user_input = int(input("Enter 0 if you want to play or 1 if you want the AI to play: "))
+    if(user_input == 0):
+        player = PyGameHumanPlayer()
+        check_player = 0
+    else:
+        player = PyGameAIPlayer()
+        check_player = 1
     size = width, height = 640, 480
     black = 1, 1, 1
     start_city = 0
@@ -89,9 +109,8 @@ if __name__ == "__main__":
     screen = setup_window(width, height, "Game World Gen Practice")
 
     landscape_surface, elevation = get_landscape_surface(size)
-    print("1L")
     combat_surface = get_combat_surface(size)
-    print("1C")
+
     city_names = [
         "Morkomasto",
         "Morathrad",
@@ -106,17 +125,16 @@ if __name__ == "__main__":
     ]
 
     city_locations = get_randomly_spread_cities(size, len(city_names))
-    print("1CL")
     routes = get_routes(city_locations)
-    print("1R")
+
+    while not city_connected(routes, len(city_names)):
+        routes = get_routes(city_locations)
+
     random.shuffle(routes)
-    routes = routes[:10]
-    print("1RS")
+    routes = routes[:10] 
+
     player_sprite = Sprite(sprite_path, city_locations[start_city])
-    print("1PS")
-    player = PyGameAIPlayer()
-    #player = PyGameHumanPlayer()
-    print("1PO")
+ 
     """ Add a line below that will reset the player variable to 
     a new object of PyGameAIPlayer class."""
 
@@ -128,44 +146,30 @@ if __name__ == "__main__":
         cities=city_locations,
         routes=routes,
     )
-
-    #cost = 0
-    #health = 100
-    bool = False
+    goal = f"The goal of the game is to go from {city_names[0]} to {city_names[9]}"
+    journal.add_event(goal)
+ 
     while True:
-        print("1W")
-        action = player.selectAction()
+    
+        action = player.selectAction(state)
         if 0 <= int(chr(action)) <= 9:
-        # if 0 <= state.current_city <= 9:
-            print("1IF")
+
             if int(chr(action)) != state.current_city and not state.travelling:
-                print("olalala")
                 ''' 
                 Check if a route exist between the current city and the destination city.
                 '''
-                for route in routes:
-                    if route[0] == city_locations[state.current_city] and route[1] == city_locations[int(chr(action))]:
-                        bool = True
-                        print("1FOR")
-                        break
-                
-                if bool == True:
-                    print("1IF2")
-                    start = city_locations[state.current_city]
-                    state.destination_city = int(chr(action))
-                    destination = city_locations[state.destination_city]
-                    player_sprite.set_location(city_locations[state.current_city])
-                    state.travelling = True
-                    print(
-                        "Travelling from", state.current_city, "to", state.destination_city
-                    )
-                    journal.generate_journal_entry(state)
-                    route_coordinate = start, destination
+                start = city_locations[state.current_city]
+                state.destination_city = int(chr(action))
+                destination = city_locations[state.destination_city]
+                player_sprite.set_location(city_locations[state.current_city])
+                state.travelling = True
+                print(
+                    "Travelling from", state.current_city, ": ", city_names[state.current_city], "to", state.destination_city, ": ", city_names[state.destination_city]
+                )
+                journal.generate_journal_entry(state, city_names)
+                if(check_player == 0):
                     player.money -= get_route_cost(city_locations, state.current_city, state.destination_city, elevation)
-                    player.health -= 5
-                else:
-                    print("No route from the current city to destination")
-                    #break
+                    player.health -= 10
 
         screen.fill(black)
         screen.blit(landscape_surface, (0, 0))
@@ -173,43 +177,33 @@ if __name__ == "__main__":
         for city in city_locations:
             pygame.draw.circle(screen, (255, 0, 0), city, 5)
 
-        for line in routes:
-            pygame.draw.line(screen, (255, 0, 0), *line)
+        for route in routes:
+            pygame.draw.line(screen, (255, 0, 0), *route)
 
         displayCityNames(city_locations, city_names)
         if state.travelling:
-            print("1ST")
             state.travelling = player_sprite.move_sprite(destination, sprite_speed)
             state.encounter_event = random.randint(0, 1000) < 2
             if not state.travelling:
-                print("1NST")
-                print('Arrived at', state.destination_city)
-                print("Money: ", player.money)
-                print("Health: ", player.health)
+                print(f"Arrived at the destination {city_names[state.destination_city]}, {state.destination_city}")
 
         if not state.travelling:
-            print("1NST2")
             encounter_event = False
             state.current_city = state.destination_city
 
-        if state.encounter_event:
-            print("1SEE")
-            # episode = run_episode(player, opponent)
-            # print(episode)
-            # win = run_pygame_combat(combat_surface, screen, player_sprite)
-            # state.encounter_event = False
-            run_pygame_combat(combat_surface, screen, player_sprite)
-            player.money += 10
-            player.health += 5
+        if state.encounter_event and state.destination_city != 9:
+            run_pygame_combat(combat_surface, screen, player_sprite, check_player)
+            journal.generate_journal_entry(state, city_names)
             state.encounter_event = False
         else:
             player_sprite.draw_sprite(screen)
         pygame.display.update()
         if state.current_city == end_city:
-            print("1SCC")
             print('You have reached the end of the game!')
-            print("You won! You have ", player.money, "with ", player.health, "health.")
-            break
-        if player.money < 0 or player.health == 0:
-            print("Game Over. You lost")
+            if(check_player == 0):
+                print("You have $", player.money, "with", player.health, "health.")
+            journal.generate_journal_entry(state, city_names)
+
+            print("Display of the events")
+            journal.display()
             break

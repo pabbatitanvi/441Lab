@@ -5,10 +5,9 @@ from sprite import Sprite
 from turn_combat import CombatPlayer, Combat
 from pygame_ai_player import PyGameAICombatPlayer
 from pygame_human_player import PyGameHumanCombatPlayer
-from lab4.rock_paper_scissor import ComputerPlayer, Game
+#from lab4.rock_paper_scissor import ComputerPlayer, Game
 
 AI_SPRITE_PATH = Path("assets/ai.png")
-print("draft")
 pygame.font.init()
 game_font = pygame.font.SysFont("Comic Sans MS", 15)
 
@@ -35,7 +34,7 @@ def draw_combat_on_window(combat_surface, screen, player_sprite, opponent_sprite
 def run_turn(currentGame, player, opponent):
     players = [player, opponent]
     states = list(reversed([(player.health, player.weapon) for player in players]))
-    states = list([tuple(player.health for player in players)]*2)
+
     for current_player, state in zip(players, states):
         current_player.selectAction(state)
 
@@ -46,10 +45,13 @@ def run_turn(currentGame, player, opponent):
     reward = currentGame.checkWin(player, opponent)
     return reward
 
-def run_pygame_combat(combat_surface, screen, player_sprite):
+def run_pygame_combat(combat_surface, screen, player_sprite, check_player):
     currentGame = Combat()
     #currentGame = Game()
-    player = PyGameHumanCombatPlayer("Oillill")
+    if(check_player == 0):
+        player = PyGameHumanCombatPlayer("Oillill")
+    else:
+        player = PyGameAICombatPlayer("Oillill")
     """ Add a line below that will reset the player object
     to an instance of the PyGameAICombatPlayer class"""
     opponent = PyGameComputerCombatPlayer("Computer")
